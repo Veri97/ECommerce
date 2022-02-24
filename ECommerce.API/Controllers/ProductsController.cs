@@ -1,18 +1,28 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ECommerce.API.Data;
+using ECommerce.API.Entities;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace ECommerce.API.Controllers;
 public class ProductsController : BaseECommerceController
 {
-    [HttpGet]
-    public string GetAllProducts()
+    private readonly StoreContext _context;
+    public ProductsController(StoreContext context)
     {
-        return "This will be a list of products";
+        _context = context;
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetAllProducts()
+    {
+        return Ok(await _context.Products.ToListAsync());
     }
 
     [HttpGet("{id}")]
-    public string GetProduct(int id)
+    public async Task<IActionResult> GetProduct(int id)
     {
-        return $"single product - {id}";
+        return Ok(await _context.Products.FindAsync(id));
     }
 }
 
