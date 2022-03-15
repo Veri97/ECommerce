@@ -1,41 +1,37 @@
 ﻿using ECommerce.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System.Text;
 using System.Text.Json;
 
 namespace ECommerce.Infrastructure.Data
 {
     public class StoreContextSeed
     {
+        private static async Task SaveDataAsync<T>(string filePath,StoreContext context) 
+            where T : BaseEntity
+        {
+            var jsonData = await File.ReadAllTextAsync(filePath);
+            var data = JsonSerializer.Deserialize<List<T>>(jsonData);
+
+            await context.Set<T>().AddRangeAsync(data);
+
+            await context.SaveChangesAsync();
+        }
+
         public static async Task SeedAsync(StoreContext context,ILoggerFactory loggerFactory)
         {
             try
             {
                 if (!(await context.ProductBrands.AnyAsync()))
-                {
-                    var brandsData = await File.ReadAllTextAsync("../ECommerce.Infrastructure/Data/SeedData/brands.json");
-                    var brands = JsonSerializer.Deserialize<List<ProductBrand>>(brandsData);
-
-                    await context.ProductBrands.AddRangeAsync(brands);
-                }
+                    await SaveDataAsync<ProductBrand>("../ECommerce.Infrastructure/Data/SeedData/brands.json",context);
 
                 if (!(await context.ProductTypes.AnyAsync()))
-                {
-                    var typesData = await File.ReadAllTextAsync("../ECommerce.Infrastructure/Data/SeedData/types.json");
-                    var types = JsonSerializer.Deserialize<List<ProductType>>(typesData);
-
-                    await context.ProductTypes.AddRangeAsync(types);
-                }
+                    await SaveDataAsync<ProductType>("../ECommerce.Infrastructure/Data/SeedData/types.json", context);
 
                 if (!(await context.Products.AnyAsync()))
-                {
-                    var brandsData = await File.ReadAllTextAsync("../ECommerce.Infrastructure/Data/SeedData/products.json");
-                    var products = JsonSerializer.Deserialize<List<Product>>(brandsData);
+                    await SaveDataAsync<Product>("../ECommerce.Infrastructure/Data/SeedData/products.json", context);
 
-                    await context.Products.AddRangeAsync(products);
-                }
-
-                await context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
