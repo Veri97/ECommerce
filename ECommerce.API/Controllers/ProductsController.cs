@@ -1,41 +1,40 @@
-﻿using ECommerce.Infrastructure.Data;
-using ECommerce.Core.Entities;
+﻿using ECommerce.Core.Entities;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
-using Microsoft.EntityFrameworkCore;
 using ECommerce.Core.Interfaces;
+using ECommerce.Core.Specifications;
 
 namespace ECommerce.API.Controllers;
 public class ProductsController : BaseECommerceController
 {
-    private readonly IProductRepository _productRepository;
-    public ProductsController(IProductRepository productRepository)
+    
+    private readonly IProductService _productService;
+    public ProductsController(IProductService productService)
     {
-        _productRepository = productRepository;
+        _productService = productService;
     }
 
     [HttpGet]
     public async Task<IActionResult> GetAllProducts()
     {
-        return Ok(await _productRepository.GetProductsAsync());
+        return Ok(await _productService.GetAllProductsAsync());
     }
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetProduct(int id)
     {
-        return Ok(await _productRepository.GetProductByIdAsync(id));
+        return Ok(await _productService.GetProductByIdAsync(id));
     }
 
     [HttpGet("brands")]
     public async Task<IActionResult> GetProductBrands()
     {
-        return Ok(await _productRepository.GetProductBrandsAsync());
+        return Ok(await _productService.GetAllProductBrandsAsync());
     }
 
     [HttpGet("types")]
     public async Task<IActionResult> GetProductTypes()
     {
-        return Ok(await _productRepository.GetProductTypesAsync());
+        return Ok(await _productService.GetAllProductTypesAsync());
     }
 }
 
