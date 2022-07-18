@@ -1,7 +1,5 @@
-﻿using ECommerce.Core.Entities;
-using Microsoft.AspNetCore.Mvc;
-using ECommerce.Core.Interfaces;
-using ECommerce.Core.Specifications;
+﻿using Microsoft.AspNetCore.Mvc;
+using ECommerce.Application.Services;
 
 namespace ECommerce.API.Controllers;
 public class ProductsController : BaseECommerceController

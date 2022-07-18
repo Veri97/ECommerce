@@ -1,4 +1,7 @@
-﻿using ECommerce.Core.Entities;
+﻿using AutoMapper;
+using ECommerce.API.DTOs;
+using ECommerce.Application.Services;
+using ECommerce.Core.Entities;
 using ECommerce.Core.Interfaces;
 using ECommerce.Core.Specifications;
 
@@ -9,26 +12,33 @@ namespace ECommerce.API.Application.Services
         private readonly IGenericRepository<Product> _productRepo;
         private readonly IGenericRepository<ProductBrand> _productBrandRepo;
         private readonly IGenericRepository<ProductType> _productTypeRepo;
+        private readonly IMapper _mapper;
         public ProductService(IGenericRepository<Product> productRepo, 
-            IGenericRepository<ProductBrand> productBrandRepo, IGenericRepository<ProductType> productTypeRepo)
+            IGenericRepository<ProductBrand> productBrandRepo, IGenericRepository<ProductType> productTypeRepo,
+            IMapper mapper)
         {
             _productRepo = productRepo;
             _productBrandRepo = productBrandRepo;
             _productTypeRepo = productTypeRepo;
+            _mapper = mapper;
         }
 
-        public async Task<Product> GetProductByIdAsync(int id)
+        public async Task<ProductToReturnDTO> GetProductByIdAsync(int id)
         {
             var spec = new ProductsWithTypesAndBrandsSpecification(id);
 
-            return await _productRepo.GetEntityWithSpecAsync(spec);
+            var product = await _productRepo.GetEntityWithSpecAsync(spec);
+
+            return _mapper.Map<Product, ProductToReturnDTO>(product);
         }
 
-        public async Task<IReadOnlyList<Product>> GetAllProductsAsync()
+        public async Task<IReadOnlyList<ProductToReturnDTO>> GetAllProductsAsync()
         {
             var spec = new ProductsWithTypesAndBrandsSpecification();
 
-            return await _productRepo.ListAllWithSpecAsync(spec);
+            var products = await _productRepo.ListAllWithSpecAsync(spec);
+
+            return _mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductToReturnDTO>>(products);
         }
 
         public async Task<IReadOnlyList<ProductType>> GetAllProductTypesAsync()
