@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using ECommerce.API.DTOs;
+using ECommerce.API.Exceptions;
 using ECommerce.Application.Services;
 using ECommerce.Core.Entities;
 using ECommerce.Core.Interfaces;
@@ -28,6 +29,9 @@ namespace ECommerce.API.Application.Services
             var spec = new ProductsWithTypesAndBrandsSpecification(id);
 
             var product = await _productRepo.GetEntityWithSpecAsync(spec);
+
+            if (product is null)
+                throw new NotFoundException("Product not found!");
 
             return _mapper.Map<Product, ProductToReturnDTO>(product);
         }

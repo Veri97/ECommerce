@@ -4,7 +4,6 @@ using ECommerce.Application.Services;
 namespace ECommerce.API.Controllers;
 public class ProductsController : BaseECommerceController
 {
-    
     private readonly IProductService _productService;
     public ProductsController(IProductService productService)
     {
