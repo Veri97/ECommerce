@@ -1,7 +1,7 @@
 using ECommerce.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace API
+namespace ECommerce.API
 {
     public class Program
     {

@@ -4,13 +4,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ECommerce.API.Controllers;
 
-[ApiExplorerSettings(IgnoreApi = true)]
+
 [Route("errors/{code}")]
+[ApiExplorerSettings(IgnoreApi = true)]
 public class ErrorController : BaseECommerceController
 {
-    [HttpGet]
     public IActionResult Error(int code)
     {
-        return new ObjectResult(new ApiResponse(code, "Resource not found!"));
+        return new ObjectResult(new ApiResponse(code, "Oops! Requested resource not found!"));
     }
 }
