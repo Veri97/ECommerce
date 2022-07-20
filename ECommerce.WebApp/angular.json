@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "ECommerce.WebApp": {
+    "ECommerce-WebApp": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -28,6 +28,9 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "./node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
+              "./node_modules/font-awesome/css/font-awesome.min.css",
               "src/styles.scss"
             ],
             "scripts": []
@@ -67,12 +70,18 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "ECommerce-WebApp:build",
+            "sslKey" : "ssl/server.key",
+            "sslCert": "ssl/server.crt",
+            "ssl": true
+          },
           "configurations": {
             "production": {
-              "browserTarget": "ECommerce.WebApp:build:production"
+              "browserTarget": "ECommerce-WebApp:build:production"
             },
             "development": {
-              "browserTarget": "ECommerce.WebApp:build:development"
+              "browserTarget": "ECommerce-WebApp:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -80,7 +89,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ECommerce.WebApp:build"
+            "browserTarget": "ECommerce-WebApp:build"
           }
         },
         "test": {
@@ -104,5 +113,5 @@
       }
     }
   },
-  "defaultProject": "ECommerce.WebApp"
+  "defaultProject": "ECommerce-WebApp"
 }
