@@ -33,7 +33,6 @@ public static class ApplicationServicesExtensions
             };
         });
 
-
         return services;
     }
 }

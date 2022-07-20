@@ -10,8 +10,10 @@ namespace ECommerce.API.Helpers
         public ProductUrlResolver(IConfiguration config) =>
             _config = config;
 
-        public string Resolve(Product source, ProductToReturnDTO destination,string destMember,
-            ResolutionContext context) =>
-         !string.IsNullOrEmpty(source.PictureUrl) ? (_config["ApiUrl"] + source.PictureUrl) : null;
+        public string Resolve(Product source, ProductToReturnDTO destination,
+            string destMember, ResolutionContext context)
+        {
+            return !string.IsNullOrEmpty(source.PictureUrl) ? (_config["ApiUrl"] + source.PictureUrl) : null;
+        }
     }
 }

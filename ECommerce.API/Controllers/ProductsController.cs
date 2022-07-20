@@ -34,4 +34,3 @@ public class ProductsController : BaseECommerceController
         return Ok(await _productService.GetAllProductTypesAsync());
     }
 }
-

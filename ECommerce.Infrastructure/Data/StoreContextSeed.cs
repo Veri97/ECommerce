@@ -8,7 +8,7 @@ namespace ECommerce.Infrastructure.Data
 {
     public class StoreContextSeed
     {
-        private static async Task SaveDataAsync<T>(string filePath,StoreContext context) 
+        private static async Task SaveDataAsync<T>(string filePath, StoreContext context)
             where T : BaseEntity
         {
             var jsonData = await File.ReadAllTextAsync(filePath);

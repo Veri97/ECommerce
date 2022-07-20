@@ -14,8 +14,10 @@ namespace ECommerce.API.Application.Services
         private readonly IGenericRepository<ProductBrand> _productBrandRepo;
         private readonly IGenericRepository<ProductType> _productTypeRepo;
         private readonly IMapper _mapper;
-        public ProductService(IGenericRepository<Product> productRepo, 
-            IGenericRepository<ProductBrand> productBrandRepo, IGenericRepository<ProductType> productTypeRepo,
+        public ProductService(
+            IGenericRepository<Product> productRepo,
+            IGenericRepository<ProductBrand> productBrandRepo, 
+            IGenericRepository<ProductType> productTypeRepo,
             IMapper mapper)
         {
             _productRepo = productRepo;

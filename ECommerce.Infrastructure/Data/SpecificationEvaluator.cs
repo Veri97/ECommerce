@@ -4,9 +4,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ECommerce.Infrastructure.Data
 {
-    public class SpecificationEvaluator<TEntity> where TEntity : BaseEntity
+    public class SpecificationEvaluator<TEntity>
+        where TEntity : BaseEntity
     {
-        public static IQueryable<TEntity> GetQuery(IQueryable<TEntity> inputQuery,
+        public static IQueryable<TEntity> GetQuery(
+            IQueryable<TEntity> inputQuery,
             ISpecification<TEntity> spec)
         {
             var query = inputQuery;
@@ -14,7 +16,7 @@ namespace ECommerce.Infrastructure.Data
             if (spec.Criteria is not null)
                 query = query.Where(spec.Criteria);
 
-            if(spec.Includes.Any())
+            if (spec.Includes.Any())
                 query = spec.Includes.Aggregate(query, (current,include) => current.Include(include));
 
             return query;

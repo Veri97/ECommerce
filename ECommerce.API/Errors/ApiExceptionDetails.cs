@@ -12,4 +12,3 @@ public class ApiExceptionDetails : ApiResponse
 
     public string Details { get; set; }
 }
-
