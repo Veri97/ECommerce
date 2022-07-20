@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ECommerce.Application.Services;
+using ECommerce.Core.Specifications;
 
 namespace ECommerce.API.Controllers;
 public class ProductsController : BaseECommerceController
@@ -11,9 +12,9 @@ public class ProductsController : BaseECommerceController
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAllProducts()
+    public async Task<IActionResult> GetAllProducts([FromQuery] ProductSpecParams productParams)
     {
-        return Ok(await _productService.GetAllProductsAsync());
+        return Ok(await _productService.GetAllProductsAsync(productParams));
     }
 
     [HttpGet("{id}")]

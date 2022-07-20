@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ECommerce.API.DTOs;
 using ECommerce.API.Exceptions;
+using ECommerce.API.Helpers;
 using ECommerce.Application.Services;
 using ECommerce.Core.Entities;
 using ECommerce.Core.Interfaces;
@@ -29,7 +30,7 @@ namespace ECommerce.API.Application.Services
         public async Task<ProductToReturnDTO> GetProductByIdAsync(int id)
         {
             var spec = new ProductsWithTypesAndBrandsSpecification(id);
-
+            
             var product = await _productRepo.GetEntityWithSpecAsync(spec);
 
             if (product is null)
@@ -38,13 +39,17 @@ namespace ECommerce.API.Application.Services
             return _mapper.Map<Product, ProductToReturnDTO>(product);
         }
 
-        public async Task<IReadOnlyList<ProductToReturnDTO>> GetAllProductsAsync()
+        public async Task<PagedResponse<ProductToReturnDTO>> GetAllProductsAsync(ProductSpecParams productParams)
         {
-            var spec = new ProductsWithTypesAndBrandsSpecification();
+            var spec = new ProductsWithTypesAndBrandsSpecification(productParams);
+            var countSpec = new ProductsWithFiltersForCountSpecification(productParams);
 
+            var totalItems = await _productRepo.CountAsync(countSpec);
             var products = await _productRepo.ListAllWithSpecAsync(spec);
 
-            return _mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductToReturnDTO>>(products);
+            var data = _mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductToReturnDTO>>(products);
+
+            return new PagedResponse<ProductToReturnDTO>(productParams.PageIndex,productParams.PageSize,totalItems,data);
         }
 
         public async Task<IReadOnlyList<ProductType>> GetAllProductTypesAsync()
