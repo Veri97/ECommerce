@@ -7,6 +7,7 @@
 .idea
 .angular
 node_modules
+ECommerce.WebApp/ssl
 bin
 obj
 *.db
