@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "ECommerce-WebApp": {
+    "ecommerce-webapp": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/ecommerce.web-app",
+            "outputPath": "dist/ecommerce-webapp",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -71,17 +71,17 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "ECommerce-WebApp:build",
+            "browserTarget": "ecommerce-webapp:build",
             "sslKey" : "ssl/server.key",
             "sslCert": "ssl/server.crt",
             "ssl": true
           },
           "configurations": {
             "production": {
-              "browserTarget": "ECommerce-WebApp:build:production"
+              "browserTarget": "ecommerce-webapp:build:production"
             },
             "development": {
-              "browserTarget": "ECommerce-WebApp:build:development"
+              "browserTarget": "ecommerce-webapp:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -89,7 +89,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ECommerce-WebApp:build"
+            "browserTarget": "ecommerce-webapp:build"
           }
         },
         "test": {
@@ -113,5 +113,5 @@
       }
     }
   },
-  "defaultProject": "ECommerce-WebApp"
+  "defaultProject": "ecommerce-webapp"
 }

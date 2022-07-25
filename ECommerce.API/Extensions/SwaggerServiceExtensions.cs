@@ -8,7 +8,7 @@ public static class SwaggerServiceExtensions
     {
         services.AddSwaggerGen(c =>
         {
-            c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebAPIv5", Version = "v1" });
+            c.SwaggerDoc("v1", new OpenApiInfo { Title = "ECommerce Store API", Version = "v1" });
         });
 
         return services;
