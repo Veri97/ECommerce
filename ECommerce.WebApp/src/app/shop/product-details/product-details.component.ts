@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {IProduct} from "../../shared/models/product";
 import {ShopService} from "../shop.service";
 import {ActivatedRoute} from "@angular/router";
@@ -14,19 +14,21 @@ export class ProductDetailsComponent implements OnInit {
 
   constructor(private shopService: ShopService,
               private activatedRoute: ActivatedRoute,
-              private bcService: BreadcrumbService) { }
+              private bcService: BreadcrumbService) {
+    this.bcService.set('@productDetails', ' ');
+  }
 
   ngOnInit(): void {
     this.loadProduct();
   }
 
-  loadProduct(){
+  loadProduct() {
     let productId = +this.activatedRoute.snapshot.paramMap.get('id');
 
     this.shopService.getProduct(productId).subscribe(product => {
       this.product = product;
-      this.bcService.set('@productDetails',product.name);
-    },error => {
+      this.bcService.set('@productDetails', product.name);
+    }, error => {
       console.log(error);
     });
   }
