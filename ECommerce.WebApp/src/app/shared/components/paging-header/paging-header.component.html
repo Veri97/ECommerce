@@ -1,15 +1,9 @@
 <header>
    <span *ngIf="totalResults && totalResults > 0">
         Showing
-        <strong>
-          {{(pageNumber-1) * pageSize+1}} -
-          {{(pageNumber*pageSize) > this.totalResults ?
-                                    this.totalResults :
-                                    (pageNumber*pageSize)
-          }}
-        </strong> of <strong>{{this.totalResults}}</strong> Results
+        <strong>{{pageRangeLabel}}</strong> of <strong>{{this.totalResults}}</strong> Results
    </span>
-   <span *ngIf="totalResults === 0">
+  <span *ngIf="totalResults === 0">
         There are <strong>0</strong> results for this filter
    </span>
 </header>

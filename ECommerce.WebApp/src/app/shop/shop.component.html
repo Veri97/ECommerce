@@ -37,9 +37,8 @@
 
       <div class="d-flex justify-content-between align-items-center pb-2">
 
-        <app-paging-header [totalResults]="this.totalResults"
-                           [pageNumber]="this.shopParams.pageNumber"
-                           [pageSize]="this.shopParams.pageSize">
+        <app-paging-header [totalResults]="this.shopParams.totalResults"
+                           [pageRangeLabel]="this.shopParams.getPageRangeLabel()">
         </app-paging-header>
 
         <div class="form-inline" *ngIf="products">
@@ -55,8 +54,8 @@
         </div>
       </div>
 
-      <div class="d-flex justify-content-center" *ngIf="this.totalResults > 0">
-        <app-pager [totalResults]="this.totalResults"
+      <div class="d-flex justify-content-center" *ngIf="this.shopParams.totalResults > 0">
+        <app-pager [totalResults]="this.shopParams.totalResults"
                    [pageSize]="this.shopParams.pageSize"
                    [pageNumber]="this.shopParams.pageNumber"
                    (pageChanged)="onPageChanged($event)">

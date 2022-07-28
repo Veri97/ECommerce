@@ -17,7 +17,6 @@ export class ShopComponent implements OnInit {
   brands: IProductBrand[];
   types: IProductType[];
   shopParams = new ShopParams();
-  totalResults: number;
 
   sortOptions = [
     {name: 'Alphabetical', value: 'name'},
@@ -40,7 +39,7 @@ export class ShopComponent implements OnInit {
       this.products = response.data;
       this.shopParams.pageNumber = response.pageIndex;
       this.shopParams.pageSize = response.pageSize;
-      this.totalResults = response.totalResults;
+      this.shopParams.totalResults = response.totalResults;
     }, error => {
       console.log(error);
     });
