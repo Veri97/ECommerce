@@ -12,7 +12,10 @@ public static class ApplicationServicesExtensions
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
         services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+        services.AddScoped<IBasketRepository, BasketRepository>();
+
         services.AddScoped<IProductService, ProductService>();
+        services.AddScoped<IBasketService, BasketService>();
 
         services.Configure<ApiBehaviorOptions>(options =>
         {
