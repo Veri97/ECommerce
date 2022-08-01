@@ -130,9 +130,15 @@ export class BasketService {
   private calculateTotals() {
     const basket = this.getCurrentBasketValue();
     const shipping = 0;
-    const subtotal = basket.items.reduce((a, b) => (b.price * b.quantity) + a, 0);
-    const total = subtotal + shipping;
-    this.basketTotalSource.next({shipping, total, subtotal});
+    /*
+    let subtotal = 0;
+    basket.items.forEach(i => {
+      subtotal += (i.price * i.quantity);
+    });
+    * */
+    const subTotal = basket.items.reduce((subtotal, item) => (item.price * item.quantity) + subtotal, 0);
+    const total = subTotal + shipping;
+    this.basketTotalSource.next({shipping, total, subTotal});
   }
 
 }
