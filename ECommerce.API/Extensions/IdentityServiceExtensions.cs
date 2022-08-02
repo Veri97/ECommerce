@@ -1,12 +1,15 @@
 ﻿using ECommerce.Core.Entities.Identity;
 using ECommerce.Infrastructure.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace ECommerce.API.Extensions;
 
 public static class IdentityServiceExtensions
 {
-    public static IServiceCollection AddIdentityServices(this IServiceCollection services)
+    public static IServiceCollection AddIdentityServices(this IServiceCollection services, IConfiguration config)
     {
         var builder = services.AddIdentityCore<AppUser>();
 
@@ -15,7 +18,18 @@ public static class IdentityServiceExtensions
         builder.AddEntityFrameworkStores<AppIdentityDbContext>();
         builder.AddSignInManager<SignInManager<AppUser>>();
 
-        services.AddAuthentication();
+        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options => 
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Token:Key"])),
+                    ValidIssuer = config["Token:Issuer"],
+                    ValidateIssuer = true,
+                    ValidateAudience = false
+                };
+            });
 
         return services;
     }

@@ -1,5 +1,6 @@
 ﻿using ECommerce.API.Errors;
 using ECommerce.Infrastructure.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ECommerce.API.Controllers
@@ -12,6 +13,13 @@ namespace ECommerce.API.Controllers
             _context = context;
         }
 
+        [HttpGet("testauth")]
+        [Authorize]
+        public ActionResult<string> GetSecretText()
+        {
+            return "secret stuff";
+        }
+
         [HttpGet("notfound")]
         public ActionResult GetNotFoundRequest()
         {
@@ -19,7 +27,7 @@ namespace ECommerce.API.Controllers
 
             if (thing == null)
             {
-                return NotFound(new ApiResponse(404));
+                return NotFound(new ApiResponse(404,"Product with id 42 not found!"));
             }
 
             return Ok();

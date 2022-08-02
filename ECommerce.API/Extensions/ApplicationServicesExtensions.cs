@@ -2,6 +2,7 @@
 using ECommerce.Application.Services;
 using ECommerce.Core.Interfaces;
 using ECommerce.Infrastructure.Repositories;
+using ECommerce.Infrastructure.Services;
 using FSHFNotification.API.Application.Errors;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,6 +17,8 @@ public static class ApplicationServicesExtensions
 
         services.AddScoped<IProductService, ProductService>();
         services.AddScoped<IBasketService, BasketService>();
+        services.AddScoped<IAccountService, AccountService>();
+        services.AddScoped<ITokenService, TokenService>();
 
         services.Configure<ApiBehaviorOptions>(options =>
         {

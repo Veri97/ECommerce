@@ -35,11 +35,12 @@ namespace ECommerce.API.Middleware
             {
                 BadRequestException => StatusCodes.Status400BadRequest,
                 NotFoundException => StatusCodes.Status404NotFound,
+                UnauthorizedException => StatusCodes.Status401Unauthorized,
                 _ => StatusCodes.Status500InternalServerError
             };
 
             var response = _env.IsDevelopment()
-                   ? new ApiExceptionDetails(httpContext.Response.StatusCode, ex.Message, ex.StackTrace.ToString())
+                   ? new ApiExceptionDetails(httpContext.Response.StatusCode, ex.Message, GetStackTrace(httpContext,ex))
                    : new ApiExceptionDetails(httpContext.Response.StatusCode, ex.Message);
 
             var json = JsonSerializer.Serialize(response, new JsonSerializerOptions
@@ -49,6 +50,11 @@ namespace ECommerce.API.Middleware
             });
 
             await httpContext.Response.WriteAsync(json);
+        }
+
+        private static string GetStackTrace(HttpContext httpContext, Exception ex)
+        {
+            return httpContext.Response.StatusCode == StatusCodes.Status500InternalServerError ? ex.StackTrace.ToString() : null;
         }
     }
 }

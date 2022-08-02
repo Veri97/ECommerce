@@ -5,6 +5,7 @@ using ECommerce.Infrastructure.Data;
 using ECommerce.Infrastructure.Identity;
 using Microsoft.EntityFrameworkCore;
 using StackExchange.Redis;
+using System.Text.Json.Serialization;
 
 namespace ECommerce.API
 {
@@ -19,7 +20,12 @@ namespace ECommerce.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers()
+                    .AddJsonOptions(options =>
+                     {
+                         options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+                     });
+
             services.AddAutoMapper(typeof(MappingProfiles));
             services.AddDbContext<StoreContext>(x =>
                      x.UseSqlite(_config.GetConnectionString("DefaultConnection")));
@@ -36,7 +42,7 @@ namespace ECommerce.API
             });
 
             services.AddApplicationServices();
-            services.AddIdentityServices();
+            services.AddIdentityServices(_config);
             services.AddSwaggerDocumentation();
             services.AddCors(opt =>
             {
