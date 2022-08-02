@@ -2,6 +2,7 @@ using ECommerce.API.Extensions;
 using ECommerce.API.Helpers;
 using ECommerce.API.Middleware;
 using ECommerce.Infrastructure.Data;
+using ECommerce.Infrastructure.Identity;
 using Microsoft.EntityFrameworkCore;
 using StackExchange.Redis;
 
@@ -23,6 +24,11 @@ namespace ECommerce.API
             services.AddDbContext<StoreContext>(x =>
                      x.UseSqlite(_config.GetConnectionString("DefaultConnection")));
 
+            services.AddDbContext<AppIdentityDbContext>(x =>
+            {
+                x.UseSqlite(_config.GetConnectionString("IdentityConnection"));
+            });
+
             services.AddSingleton<IConnectionMultiplexer>(c =>
             {
                 var configuration = ConfigurationOptions.Parse(_config.GetConnectionString("Redis"), ignoreUnknown: true);
@@ -30,6 +36,7 @@ namespace ECommerce.API
             });
 
             services.AddApplicationServices();
+            services.AddIdentityServices();
             services.AddSwaggerDocumentation();
             services.AddCors(opt =>
             {
@@ -54,6 +61,8 @@ namespace ECommerce.API
             app.UseStaticFiles();
 
             app.UseCors("CorsPolicy");
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

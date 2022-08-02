@@ -1,4 +1,7 @@
+using ECommerce.Core.Entities.Identity;
 using ECommerce.Infrastructure.Data;
+using ECommerce.Infrastructure.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace ECommerce.API
@@ -17,6 +20,12 @@ namespace ECommerce.API
                 var context = services.GetRequiredService<StoreContext>();
                 await context.Database.MigrateAsync();
                 await StoreContextSeed.SeedAsync(context, loggerFactory);
+
+                var userManager = services.GetRequiredService<UserManager<AppUser>>();
+                var identityContext = services.GetRequiredService<AppIdentityDbContext>();
+
+                await identityContext.Database.MigrateAsync();
+                await AppIdentityDbContextSeed.SeedUserAsync(userManager);
             }
             catch (Exception ex)
             {
